@@ -13,3 +13,6 @@ dist/
 # Sistema
 .DS_Store
 Thumbs.db
+
+# Acceso directo local (rutas de este PC)
+*.lnk
