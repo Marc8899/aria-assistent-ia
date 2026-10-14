@@ -20,5 +20,6 @@ PySide6
 numpy
 sounddevice
 pynput
+pyobjc-framework-MediaPlayer  # botón de los auriculares en Mac
 faster-whisper
 piper-tts

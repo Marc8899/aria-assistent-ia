@@ -49,7 +49,7 @@ TECLA_HABLAR = "alt_r"   # en Mac: Opción (⌥) derecha
 
 # Botón de los auriculares (llega como Play/Pausa). Mantener = escucha mientras lo pulsas;
 # un toque = manos libres (escucha hasta que te callas o vuelves a pulsar).
-BOTON_AURICULARES = False  # solo funciona en Windows
+BOTON_AURICULARES = True   # en Mac solo llega el toque (manos libres), no el mantener pulsado
 BOTON_AURICULARES_BLOQUEA_MUSICA = True  # True: ese botón ya no pausa la música mientras Aria esté abierta
 SILENCIO_FIN_FRASE = 1.5                 # segundos callado para dar por terminada la frase (manos libres)
 SONIDOS_ESCUCHA = True                   # pitidos al empezar y terminar de escuchar

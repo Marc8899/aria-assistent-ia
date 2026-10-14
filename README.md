@@ -34,7 +34,9 @@ Adaptació per a Mac amb Apple Silicon (provada per a un MacBook Air de 16 GB):
 - Fa servir **Qwen3:8b**, de la mateixa família, perquè en 16 GB de memòria compartida el 14b va massa just.
 - Whisper funciona amb el processador, perquè no hi ha gràfica NVIDIA.
 - La tecla per parlar és **Opció (⌥) dreta**.
-- No hi ha les eines exclusives de Windows: obrir i tancar programes, mode joc amb OBS, escriure en directe a Word i el botó dels auriculars. Queden 76 eines en 18 grups.
+- Escriure en directe a Word funciona amb AppleScript (cal tenir Microsoft Word instal·lat).
+- El botó dels auriculars (AirPods inclosos) funciona amb un toc: un toc per parlar i un altre per acabar.
+- No hi ha les eines d'obrir i tancar programes ni el mode joc amb OBS, que són exclusives de Windows. Queden 76 eines en 18 grups.
 
 Instal·lació, des de la Terminal del Mac:
 

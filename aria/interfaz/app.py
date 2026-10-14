@@ -19,7 +19,7 @@ from aria.interfaz.panel_lateral import PanelLateral
 from aria.interfaz.ventana import VentanaPrincipal
 from aria.voz.habla import Voz
 from aria.voz.oido import Oido
-from aria.voz.tecla import BotonAuriculares, TeclaHablar, nombre_tecla
+from aria.voz.tecla import BotonAuriculares, BotonAuricularesMac, TeclaHablar, nombre_tecla
 
 
 def _icono() -> QIcon:
@@ -158,8 +158,12 @@ def main():
     tecla = TeclaHablar(config.TECLA_HABLAR, motor.tecla_pulsada, motor.tecla_soltada, motor.cancelar_escucha)
     tecla.iniciar()
     if config.BOTON_AURICULARES:
-        boton = BotonAuriculares(motor.boton_pulsado, motor.boton_soltado, config.BOTON_AURICULARES_BLOQUEA_MUSICA)
-        boton.iniciar()
+        clase = BotonAuricularesMac if sys.platform == "darwin" else BotonAuriculares
+        boton = clase(motor.boton_pulsado, motor.boton_soltado, config.BOTON_AURICULARES_BLOQUEA_MUSICA)
+        try:
+            boton.iniciar()
+        except Exception as e:
+            print(f"[auriculares] No se ha podido activar el botón: {e}")
 
     robot.show()
     QTimer.singleShot(600, lambda: motor.saludar(hablar=voz.disponible()))
