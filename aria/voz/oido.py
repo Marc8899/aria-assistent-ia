@@ -2,6 +2,7 @@
 # Usa la gráfica si puede (≈0,2 s por frase) y si no, el procesador.
 import glob
 import os
+import sys
 import threading
 import time
 
@@ -69,6 +70,8 @@ class Oido:
                 return
             from faster_whisper import WhisperModel
             try:
+                if sys.platform == "darwin":
+                    raise RuntimeError("Mac: sin gráfica NVIDIA")
                 _preparar_cuda()
                 modelo = WhisperModel(str(config.WHISPER_MODELO), device="cuda", compute_type="float16")
                 modelo.transcribe(np.zeros(FRECUENCIA, dtype=np.float32), language="es")  # calentamiento

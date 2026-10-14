@@ -2,7 +2,7 @@
 import sys
 from pathlib import Path
 
-MODELO = "qwen3:14b"        # <- nombre EXACTO que sale en 'ollama list'
+MODELO = "qwen3:8b"         # <- en Mac de 16 GB; con 24 GB o más se puede usar "qwen3:14b"
 NOMBRE_ASISTENTE = "Aria"   # <- el nombre que quieras
 
 # Tokens de contexto que pedimos a Ollama. Si se queda corto, Ollama recorta
@@ -45,11 +45,11 @@ VOZ_MAX_CARACTERES = 700      # respuestas más largas se leen hasta aquí (el r
 WHISPER_MODELO = CARPETA_MODELOS / "whisper" / "large-v3-turbo"
 # Tecla para hablar: mantenla pulsada mientras hablas (funciona aunque Aria no esté en primer plano).
 # Opciones: "ctrl_r" (Ctrl derecho), "alt_gr", "shift_r", "menu", "pause", "insert", "f8"... o una letra.
-TECLA_HABLAR = "ctrl_r"
+TECLA_HABLAR = "alt_r"   # en Mac: Opción (⌥) derecha
 
 # Botón de los auriculares (llega como Play/Pausa). Mantener = escucha mientras lo pulsas;
 # un toque = manos libres (escucha hasta que te callas o vuelves a pulsar).
-BOTON_AURICULARES = True
+BOTON_AURICULARES = False  # solo funciona en Windows
 BOTON_AURICULARES_BLOQUEA_MUSICA = True  # True: ese botón ya no pausa la música mientras Aria esté abierta
 SILENCIO_FIN_FRASE = 1.5                 # segundos callado para dar por terminada la frase (manos libres)
 SONIDOS_ESCUCHA = True                   # pitidos al empezar y terminar de escuchar

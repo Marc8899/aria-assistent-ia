@@ -4,7 +4,7 @@ from typing import Callable
 
 from pynput import keyboard
 
-NOMBRES = {"ctrl_r": "Ctrl derecho", "ctrl_l": "Ctrl izquierdo", "alt_gr": "Alt Gr", "alt_r": "Alt derecho",
+NOMBRES = {"alt_r": "Opción (⌥) derecha", "cmd_r": "Comando (⌘) derecha", "ctrl_r": "Ctrl derecho", "ctrl_l": "Ctrl izquierdo", "alt_gr": "Alt Gr", "alt_r": "Alt derecho",
            "shift_r": "Mayús derecha", "menu": "tecla Menú", "pause": "Pausa", "scroll_lock": "Bloq Despl",
            "insert": "Insert"}
 

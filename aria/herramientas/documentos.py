@@ -9,6 +9,15 @@ import time
 from pathlib import Path
 
 from aria import config
+
+
+def _abrir(ruta):
+    """Abre un archivo con su programa predeterminado (Windows o Mac)."""
+    if hasattr(os, "startfile"):
+        os.startfile(ruta)
+    else:
+        import subprocess
+        subprocess.Popen(["open", str(ruta)])
 from aria.archivos import comprobar_escritura, resolver, ruta_libre
 from aria.conversion import leer_texto, markdown_a_docx
 
@@ -83,7 +92,7 @@ def registrar(registro, ctx):
         comprobar_escritura(destino)
         destino.parent.mkdir(parents=True, exist_ok=True)
         markdown_a_docx(contenido, destino, titulo)
-        os.startfile(destino)
+        _abrir(destino)
         return f"Documento creado y abierto: {destino}"
 
     @registro.herramienta(
@@ -156,7 +165,7 @@ def registrar(registro, ctx):
             h.auto_filter.ref = h.dimensions
             _ajustar_columnas(h)
         libro.save(destino)
-        os.startfile(destino)
+        _abrir(destino)
         return f"Excel creado y abierto: {destino} ({len(filas)} filas)."
 
     @registro.herramienta(

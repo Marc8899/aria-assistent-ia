@@ -1,5 +1,7 @@
 # Para añadir un grupo de herramientas: crea un módulo con GRUPO, PALABRAS_CLAVE
 # (None = siempre disponible) y una función registrar(registro, ctx), y añádelo a MODULOS.
+import sys
+
 from aria.contexto import Contexto
 from aria.herramientas import (
     aplicaciones, archivos, calculo, calendario, classroom, documentos, github, gmail, google_drive, guias, juegos,
@@ -16,9 +18,14 @@ MODULOS = (
 )
 
 
+SOLO_WINDOWS = (aplicaciones, juegos)
+
+
 def crear_registro(ctx: Contexto) -> Registro:
     registro = Registro()
     for modulo in MODULOS:
+        if sys.platform == "darwin" and modulo in SOLO_WINDOWS:
+            continue
         registro.modulo(modulo.GRUPO, modulo.PALABRAS_CLAVE)
         modulo.registrar(registro, ctx)
     return registro

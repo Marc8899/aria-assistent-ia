@@ -27,6 +27,25 @@ python -m venv .venv
 
 La configuració és a `aria/config.py`.
 
+## Versió per a Mac (branca `mac`)
+
+Adaptació per a Mac amb Apple Silicon (provada per a un MacBook Air de 16 GB):
+
+- Fa servir **Qwen3:8b**, de la mateixa família, perquè en 16 GB de memòria compartida el 14b va massa just.
+- Whisper funciona amb el processador, perquè no hi ha gràfica NVIDIA.
+- La tecla per parlar és **Opció (⌥) dreta**.
+- No hi ha les eines exclusives de Windows: obrir i tancar programes, mode joc amb OBS, escriure en directe a Word i el botó dels auriculars. Queden 76 eines en 18 grups.
+
+Instal·lació, des de la Terminal del Mac:
+
+```
+curl -L https://github.com/Marc8899/aria-assistent-ia/archive/refs/heads/mac.zip -o aria.zip
+unzip -q aria.zip && cd aria-assistent-ia-mac
+bash instalar-mac.sh
+```
+
+Després, Aria s'obre amb doble clic a `Aria.command`.
+
 ## Estructura
 
 ```

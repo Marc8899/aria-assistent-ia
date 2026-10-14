@@ -3,6 +3,7 @@ import json
 import platform
 import shutil
 import subprocess
+import sys
 import time
 
 import psutil
@@ -16,6 +17,13 @@ PALABRAS_CLAVE = ("pc", "ordenador", "especificaciones", "specs", "ram", "memori
 
 
 def _cim() -> dict:
+    if sys.platform == "darwin":
+        def sysctl(clave):
+            return subprocess.run(["sysctl", "-n", clave], capture_output=True, text=True).stdout.strip()
+        chip = sysctl("machdep.cpu.brand_string")
+        return {"cpu": chip, "gpus": [f"{chip} (gráfica integrada)"], "placa": "",
+                "equipo": f"Apple {sysctl('hw.model')}", "so": f"macOS {platform.mac_ver()[0]}",
+                "ram_mhz": None, "modulos": None}
     comando = (
         "[Console]::OutputEncoding=[Text.Encoding]::UTF8; [pscustomobject]@{"
         "cpu=(Get-CimInstance Win32_Processor | Select-Object -First 1 -ExpandProperty Name);"

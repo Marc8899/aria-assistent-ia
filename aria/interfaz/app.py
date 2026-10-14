@@ -130,7 +130,8 @@ def main():
     accion_panel.setCheckable(True)
     accion_panel.setChecked(panel.activado)
     accion_panel.toggled.connect(lambda activo: setattr(panel, "activado", activo))
-    menu.addAction("Abrir terminal (para /conectar servicios)",
+    if sys.platform == "win32":
+        menu.addAction("Abrir terminal (para /conectar servicios)",
                    lambda: subprocess.Popen(["cmd", "/c", "start", "Aria (terminal)", sys.executable.replace(
                        "pythonw.exe", "python.exe"), str(config.RAIZ / "main.py"), "--terminal"], cwd=str(config.RAIZ)))
     menu.addSeparator()
