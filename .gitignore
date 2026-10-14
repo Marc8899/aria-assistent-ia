@@ -1,0 +1,15 @@
+# Datos personales: nunca se suben
+memoria.db
+datos/
+
+# Entorno y archivos generados
+.venv/
+__pycache__/
+*.pyc
+build/
+dist/
+*.spec
+
+# Sistema
+.DS_Store
+Thumbs.db

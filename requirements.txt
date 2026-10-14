@@ -1,0 +1,28 @@
+ollama>=0.5
+ddgs
+keyring
+psutil
+obsws-python
+fastapi
+uvicorn[standard]
+caldav
+google-api-python-client
+google-auth-oauthlib
+pypdf
+python-docx
+openpyxl
+python-pptx
+pillow
+pywin32
+pdf2docx
+# Interfaz
+PySide6
+# Voz (local)
+numpy
+sounddevice
+pynput
+faster-whisper
+piper-tts
+# Whisper en la gráfica (NVIDIA)
+nvidia-cublas-cu12
+nvidia-cudnn-cu12
