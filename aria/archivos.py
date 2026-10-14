@@ -4,7 +4,10 @@ import os
 import re
 import time
 import urllib.parse
-import winreg
+try:
+    import winreg
+except ImportError:  # Mac / Linux
+    winreg = None
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -19,6 +22,12 @@ CARPETAS_IGNORADAS = {"appdata", "node_modules", ".git", ".venv", "venv", "__pyc
                       ".cache", "site-packages"}
 
 
+_CARPETAS_MAC = {"Personal": INICIO / "Documents", "Desktop": INICIO / "Desktop",
+                 "{374DE290-123F-4565-9164-39C4925E467B}": INICIO / "Downloads",
+                 "My Pictures": INICIO / "Pictures", "My Music": INICIO / "Music",
+                 "My Video": INICIO / "Movies"}
+
+
 def carpeta_especial(nombre: str) -> Path | None:
     nombre = normalizar(nombre)
     if nombre in ("inicio", "usuario", "home", "mi carpeta"):
@@ -26,6 +35,8 @@ def carpeta_especial(nombre: str) -> Path | None:
     clave = _CLAVES_CARPETAS.get(nombre)
     if not clave:
         return None
+    if winreg is None:
+        return _CARPETAS_MAC.get(clave)
     try:
         with winreg.OpenKey(winreg.HKEY_CURRENT_USER,
                             r"Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders") as k:

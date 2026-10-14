@@ -9,7 +9,10 @@ import re
 import sqlite3
 import subprocess
 import time
-import winreg
+try:
+    import winreg
+except ImportError:  # Mac / Linux
+    winreg = None
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
