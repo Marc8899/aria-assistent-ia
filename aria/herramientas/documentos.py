@@ -5,10 +5,71 @@ import json
 import os
 import re
 import shutil
+import sys
 import time
 from pathlib import Path
 
 from aria import config
+
+
+_SCRIPT_WORD_MAC = """
+on run argv
+    set accion to item 1 of argv
+    tell application "Microsoft Word"
+        activate
+        if accion is "abrir" then
+            open (POSIX file (item 2 of argv))
+        else if accion is "preparar" then
+            if (count of documents) = 0 then make new document
+        else if accion is "nombre" then
+            return name of active document
+        else
+            set doc to active document
+            insert text ((item 3 of argv) & return) at end of text object of doc
+            set nivel to item 2 of argv
+            try
+                set p to paragraph -2 of doc
+                if nivel is "1" then
+                    set style of p to style heading1
+                else if nivel is "2" then
+                    set style of p to style heading2
+                else if nivel is "3" then
+                    set style of p to style heading3
+                else if nivel is "vineta" then
+                    set style of p to style list bullet
+                else
+                    set style of p to style normal
+                end if
+            end try
+        end if
+    end tell
+end run
+"""
+
+
+def _word_mac(*argumentos) -> str:
+    import subprocess
+    r = subprocess.run(["osascript", "-e", _SCRIPT_WORD_MAC, *map(str, argumentos)],
+                       capture_output=True, text=True, timeout=60)
+    if r.returncode != 0:
+        raise RuntimeError(r.stderr.strip() or "Word no ha respondido")
+    return r.stdout.strip()
+
+
+def _escribir_en_word_mac(texto: str, ruta) -> str:
+    """Mac: Word se controla con AppleScript. Escribe línea a línea para que se vea aparecer."""
+    if not Path("/Applications/Microsoft Word.app").exists():
+        return "Microsoft Word no está instalado en este Mac."
+    if ruta is not None and ruta.exists():
+        _word_mac("abrir", ruta)
+    _word_mac("preparar")
+    for linea in texto.splitlines():
+        titulo = re.match(r"(#{1,3})\s+(.*)", linea)
+        vineta = re.match(r"\s*[-*•]\s+(.*)", linea)
+        contenido = (titulo.group(2) if titulo else vineta.group(1) if vineta else linea).replace("**", "")
+        nivel = str(len(titulo.group(1))) if titulo else "vineta" if vineta else "normal"
+        _word_mac("escribir", nivel, contenido)
+    return (f"Escrito en Word ({_word_mac('nombre')}). No lo he guardado: el usuario puede revisarlo y guardarlo.")
 
 
 def _abrir(ruta):
@@ -102,6 +163,8 @@ def registrar(registro, ctx):
         ruta="Documento a abrir (opcional; vacío = el que esté abierto o uno nuevo)",
     )
     def escribir_en_word(texto: str, ruta: str = "") -> str:
+        if sys.platform == "darwin":
+            return _escribir_en_word_mac(texto, resolver(ruta) if ruta else None)
         import pythoncom
         import win32com.client
 

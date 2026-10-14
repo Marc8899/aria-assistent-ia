@@ -41,6 +41,37 @@ class TeclaHablar:
                 self.al_soltar()
 
 
+class BotonAuricularesMac:
+    """En Mac, el Play/Pausa de los AirPods o auriculares no llega como una tecla: macOS se lo envía a la app que
+    está "reproduciendo". Aria se declara como tal (framework MediaPlayer) y recibe cada pulsación como un toque.
+    Solo hay toque (no "mantener"), así que funciona en modo manos libres: un toque para hablar, otro para terminar.
+    Si después se pone música en otra app, esa app pasa a recibir el botón hasta que se vuelve a abrir Aria."""
+
+    def __init__(self, al_pulsar: Callable[[], None], al_soltar: Callable[[], None], bloquear: bool = True):
+        self.al_pulsar, self.al_soltar = al_pulsar, al_soltar
+        self._comandos = []
+
+    def iniciar(self):
+        """Hay que llamarlo desde el hilo principal, con la aplicación de Qt ya creada."""
+        from MediaPlayer import MPNowPlayingInfoCenter, MPRemoteCommandCenter
+
+        info = MPNowPlayingInfoCenter.defaultCenter()
+
+        def manejar(_evento):
+            info.setPlaybackState_(1)  # seguir siendo la app "que reproduce"
+            self.al_pulsar()
+            self.al_soltar()  # pulsar + soltar enseguida = un toque -> manos libres
+            return 0  # MPRemoteCommandHandlerStatusSuccess
+
+        centro = MPRemoteCommandCenter.sharedCommandCenter()
+        for comando in (centro.togglePlayPauseCommand(), centro.playCommand(), centro.pauseCommand()):
+            comando.setEnabled_(True)
+            self._comandos.append((comando, comando.addTargetWithHandler_(manejar)))
+        self._manejar = manejar  # que no lo borre el recolector de basura
+        info.setNowPlayingInfo_({"title": "Aria", "artist": "Pulsa para hablar"})
+        info.setPlaybackState_(1)  # MPNowPlayingPlaybackStatePlaying
+
+
 VK_PLAY_PAUSA = 0xB3
 WM_KEYDOWN, WM_KEYUP, WM_SYSKEYDOWN, WM_SYSKEYUP = 0x100, 0x101, 0x104, 0x105
 
