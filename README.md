@@ -1,6 +1,6 @@
 # Aria — Assistent Personal IA (AIPA)
 
-Prototip d'assistent personal intel·ligent que funciona **completament en local**, desenvolupat com a part pràctica del Treball de Recerca *Assistent Personal IA* (Batxillerat, Institut Vilanova del Vallès), de Marc Corchón.
+Prototip d'assistent personal intel·ligent que funciona **completament en local**, desenvolupat com a part pràctica del Treball de Recerca *Assistent Personal IA* (Batxillerat, Institut Carles Vallbona), de Marc Corchón.
 
 Aria envolta un model de llenguatge obert (**Qwen3:14b**, executat amb **Ollama**) amb tot allò que el model no té per si sol: instruccions, context temporal, memòria persistent, organització (tasques, projectes, hàbits, blocs de temps), 87 eines i mesures de seguretat. S'hi pot parlar per veu (Whisper i Piper, en local) des d'una aplicació d'escriptori amb mascota.
 
