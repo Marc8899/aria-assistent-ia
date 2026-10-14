@@ -1,4 +1,5 @@
 # CONFIGURACIÓN - lo normal es que solo cambies cosas aquí.
+import sys
 from pathlib import Path
 
 MODELO = "qwen3:14b"        # <- nombre EXACTO que sale en 'ollama list'
@@ -18,7 +19,8 @@ MAX_PASOS_HERRAMIENTAS = 6
 MAX_MENSAJES_HISTORIAL = 40
 
 # Rutas absolutas: así los datos son los mismos aunque arranques desde otra carpeta.
-RAIZ = Path(__file__).resolve().parent.parent
+# Como .exe (PyInstaller), los datos van junto al ejecutable, no dentro del paquete.
+RAIZ = Path(sys.executable).parent if getattr(sys, "frozen", False) else Path(__file__).resolve().parent.parent
 RUTA_DB = RAIZ / "memoria.db"
 RUTA_TAREAS = RAIZ / "datos" / "tareas.db"
 RUTA_JUEGOS = RAIZ / "datos" / "juegos.json"
